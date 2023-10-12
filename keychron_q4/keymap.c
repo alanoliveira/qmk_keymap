@@ -24,64 +24,26 @@ enum layers {
     _FN3
 };
 
-bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case LCTL_T(KC_ESC):
-            // Immediately select the hold action when another key is pressed.
-            return true;
-        default:
-            // Do not select the hold action when another key is pressed.
-            return false;
-    }
-}
-
-uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case SFT_T(KC_SPC):
-            return 1;
-        default:
-            return QUICK_TAP_TERM;
-    }
-}
-
-uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case LT(_FN2, KC_SPC):
-            return 1;
-        default:
-            return TAPPING_TERM;
-    }
-}
-
-bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case LT(_FN2, KC_SPC):
-            return true;
-        default:
-            return false;
-    }
-}
-
 // clang-format off
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    ┌─────────────┬──────┬──────┬───┬───┬───┬───┬───┬───┬───┬──────┬──────────┬──────────┬──────┐
-//    │      `      │  1   │  2   │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │  0   │    -     │    =     │ bspc │
-//    ├─────────────┼──────┼──────┼───┼───┼───┼───┼───┼───┼───┼──────┼──────────┼──────────┼──────┤
-//    │     tab     │  q   │  w   │ e │ r │ t │ y │ u │ i │ o │  p   │    [     │    ]     │  \   │
-//    ├─────────────┼──────┼──────┼───┼───┼───┼───┼───┼───┼───┼──────┼──────────┼──────────┴──────┤
-//    │ LCTL_T(esc) │  a   │  s   │ d │ f │ g │ h │ j │ k │ l │  ;   │    '     │       ent       │
-//    ├─────────────┴──────┼──────┼───┼───┼───┼───┼───┼───┼───┼──────┼──────────┼─────────────────┤
-//    │        lsft        │  z   │ x │ c │ v │ b │ n │ m │ , │  .   │    /     │      rsft       │
-//    ├─────────────┬──────┼──────┼───┴───┴───┴───┴───┴───┴───┼──────┼──────────┼──────────┬──────┤
-//    │  MO(_FN1)   │ lalt │ lgui │            spc            │ ralt │ TT(_FN3) │ TT(_FN3) │ rctl │
-//    └─────────────┴──────┴──────┴───────────────────────────┴──────┴──────────┴──────────┴──────┘
+//    ┌─────────────┬──────┬──────┬───┬───┬───┬───┬───┬───┬───┬──────┬──────┬──────────┬──────┐
+//    │      `      │  1   │  2   │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │  0   │  -   │    =     │ bspc │
+//    ├─────────────┼──────┼──────┼───┼───┼───┼───┼───┼───┼───┼──────┼──────┼──────────┼──────┤
+//    │     tab     │  q   │  w   │ e │ r │ t │ y │ u │ i │ o │  p   │  [   │    ]     │  \   │
+//    ├─────────────┼──────┼──────┼───┼───┼───┼───┼───┼───┼───┼──────┼──────┼──────────┴──────┤
+//    │ LCTL_T(esc) │  a   │  s   │ d │ f │ g │ h │ j │ k │ l │  ;   │  '   │       ent       │
+//    ├─────────────┴──────┼──────┼───┼───┼───┼───┼───┼───┼───┼──────┼──────┼─────────────────┤
+//    │        lsft        │  z   │ x │ c │ v │ b │ n │ m │ , │  .   │  /   │      rsft       │
+//    ├─────────────┬──────┼──────┼───┴───┴───┴───┴───┴───┴───┼──────┼──────┼──────────┬──────┤
+//    │  MO(_FN1)   │ lalt │ lgui │            spc            │ ralt │ rgui │ TT(_FN3) │ rctl │
+//    └─────────────┴──────┴──────┴───────────────────────────┴──────┴──────┴──────────┴──────┘
 [SWITCH_L] = LAYOUT_ansi_61(
-  KC_GRV         , KC_1    , KC_2    , KC_3 , KC_4 , KC_5 , KC_6 , KC_7 , KC_8 , KC_9    , KC_0    , KC_MINS  , KC_EQL   , KC_BSPC,
-  KC_TAB         , KC_Q    , KC_W    , KC_E , KC_R , KC_T , KC_Y , KC_U , KC_I , KC_O    , KC_P    , KC_LBRC  , KC_RBRC  , KC_BSLS,
-  LCTL_T(KC_ESC) , KC_A    , KC_S    , KC_D , KC_F , KC_G , KC_H , KC_J , KC_K , KC_L    , KC_SCLN , KC_QUOT  , KC_ENT            ,
-  KC_LSFT                  , KC_Z    , KC_X , KC_C , KC_V , KC_B , KC_N , KC_M , KC_COMM , KC_DOT  , KC_SLSH  , KC_RSFT           ,
-  MO(_FN1)       , KC_LALT , KC_LGUI ,                      KC_SPC                       , KC_RALT , TT(_FN3) , TT(_FN3) , KC_RCTL
+  KC_GRV         , KC_1    , KC_2    , KC_3 , KC_4 , KC_5 , KC_6 , KC_7 , KC_8 , KC_9    , KC_0    , KC_MINS , KC_EQL   , KC_BSPC,
+  KC_TAB         , KC_Q    , KC_W    , KC_E , KC_R , KC_T , KC_Y , KC_U , KC_I , KC_O    , KC_P    , KC_LBRC , KC_RBRC  , KC_BSLS,
+  LCTL_T(KC_ESC) , KC_A    , KC_S    , KC_D , KC_F , KC_G , KC_H , KC_J , KC_K , KC_L    , KC_SCLN , KC_QUOT , KC_ENT            ,
+  KC_LSFT                  , KC_Z    , KC_X , KC_C , KC_V , KC_B , KC_N , KC_M , KC_COMM , KC_DOT  , KC_SLSH , KC_RSFT           ,
+  MO(_FN1)       , KC_LALT , KC_LGUI ,                      KC_SPC                       , KC_RALT , KC_RGUI , TT(_FN3) , KC_RCTL
 ),
 
 //    ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
