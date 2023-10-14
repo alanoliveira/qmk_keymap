@@ -20,6 +20,31 @@ fi
 
 $RUNTIME build -t qmk_firmware .
 
+
+cmd="bash"
+if [[ $1 = "flash" ]]; then
+  PS3="Please select the keyboard you want to flash: "
+  options=("keychron_q4" "corne_cherry_v3")
+  select option in "${options[@]}"
+  do
+      case $REPLY in
+          1)
+              make_action="keychron/q4/ansi_v1:mine:flash"
+              break
+              ;;
+          2)
+              make_action="crkbd:mine:flash"
+              break
+              ;;
+          *)
+              echo "Invalid option. Please select a valid option."
+              ;;
+      esac
+  done
+  cmd="make -e BUILD_DIR=\"/target/\" $make_action"
+fi
+echo "Running: $cmd"
+
 # IF we are using docker on non Linux and docker-machine isn't working print an error
 # ELSE set usb_args
 if [ ! "$(uname)" = "Linux" ] && [ "$RUNTIME" = "docker" ] && ! docker-machine active >/dev/null 2>&1; then
@@ -34,18 +59,14 @@ if [ "$RUNTIME" = "docker" ]; then
 	uid_arg="--user $(id -u):$(id -g)"
 fi
 
-cmd="build"
-if [ "$1" = "flash" ]; then
-  cmd="flash"
-fi
-
 dir_src=$(pwd -W 2>/dev/null) || dir_src=$PWD  # Use Windows path if on Windows
-dir_dst='/qmk_firmware/keyboards/keychron/q4/ansi_v1/keymaps/mine'
-
+mkdir -p "$dir_src/target"
 podman run --rm -it \
   $uid_arg \
   $usb_args \
-	-v "$dir_src/keychron_q4":"$dir_dst" \
+  -v "$dir_src/keychron_q4":'/qmk_firmware/keyboards/keychron/q4/ansi_v1/keymaps/mine' \
+  -v "$dir_src/corne_cherry_v3":'/qmk_firmware/keyboards/crkbd/keymaps/mine' \
+  -v "$dir_src/target/":'/target/' \
   -w "/qmk_firmware/" \
-	qmk_firmware \
-  make -e BUILD_DIR="$dir_dst/target/" "keychron/q4/ansi_v1:mine:$cmd"
+  qmk_firmware \
+  $cmd
