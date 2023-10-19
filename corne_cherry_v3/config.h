@@ -18,9 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 #define MASTER_RIGHT
-#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 #define HOLD_ON_OTHER_KEY_PRESS
-#define QUICK_TAP_TERM 0
 
 #ifdef RGB_MATRIX_ENABLE
 #    define RGB_MATRIX_KEYPRESSES
