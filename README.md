@@ -28,3 +28,10 @@ On this case is better to flash outside the container:
 
 ## Formatting
 - the `keymap.c` files are formatted using https://github.com/codethread/qmk.nvim
+
+## Troubleshooting
+
+### Waiting for /dev/ttyACM0 ....
+
+Be sure to add the udev rules for the keyboard. See [qmk docs](https://github.com/qmk/qmk_firmware/blob/master/docs/faq_build.md#linux-udev-rules-idlinux-udev-rules).
+Not sure if it's needed, but also install the `dfu-util` and `dfu-programmer` packages.
