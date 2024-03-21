@@ -1,4 +1,4 @@
-MOUSEKEY_ENABLE    = no
+MOUSEKEY_ENABLE    = yes
 VIA_ENABLE         = no
 OLED_ENABLE        = no
 RGBLIGHT_ENABLE    = no
