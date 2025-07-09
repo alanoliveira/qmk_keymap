@@ -61,7 +61,7 @@ fi
 
 dir_src=$(pwd -W 2>/dev/null) || dir_src=$PWD  # Use Windows path if on Windows
 mkdir -p "$dir_src/target"
-podman run --rm -it \
+docker run --rm -it \
   $uid_arg \
   $usb_args \
   -v "$dir_src/keychron_q4":'/qmk_firmware/keyboards/keychron/q4/ansi_v1/keymaps/mine' \
